@@ -140,3 +140,4 @@ dump.json
 man.md
 tst.json
 /zbx.py
+config.py
