@@ -29,7 +29,7 @@
 
 Настройки подгружаются с помощью внутреннего модуля `dotenv` из локального файла `.env`. 
 Примерное содержимое файла `.env`:
-```bash
+```shell script
 ZBX_SERVER = 'https://zabbix.example.com'
 ZBX_USER = 'zbxuser'
 ZBX_PASS = 'zbxpass'
@@ -39,8 +39,40 @@ JIRA_PASS = 'jirapass'
 JIRA_PROJECT = 'PROJ'  # ServiceDesk Project Key
 JIRA_ISSUE_TYPE = '10511'  # Issue type ID: Task/Question 
 JIRA_ISSUE_PRIORITY = '12121'  # Issue priority for task
-JIRA_TRANSITION_CLASSIF = '11'  # Transition ID 
-JIRA_TRANSITION_CLOSE = '21'  # Another transition ID
+JIRA_TRANSITION_CLASSIF = '11'  # Transition ID for classification
+JIRA_TRANSITION_CLOSE = '21'  # Transition ID for close issue
 LOG_FILE_PATH = '/var/log/pyproject/zbxjira.log'  # Path to log file
 ```
 
+В Zabbix добавляем новый Media Type с нашим скриптом или делаем для 
+него такой `wrapper.sh`, который добавляем в качестве `alertscript`:
+```shell script
+#!/usr/bin/env bash
+
+cd /opt/scripts/zbxjira
+
+source ./venv/bin/activate
+
+python3 main.py "$1" 
+
+exit 0
+```  
+Так же в Media Type в качестве параметра нашему скрипту передаем только `{ALERT.MESSAGE}`
+
+В Actions добавляем новый Action со следующим содержимым сообщения:
+```json
+{
+    "subject": "HUSTON: {TRIGGER.STATUS} -> {HOST.HOST1}: {EVENT.NAME}",
+    "event_id": "{EVENT.ID}",
+    "host_name": "{HOST.HOST1}",
+    "host_ip": "{HOST.IP}",
+    "trigger_id": "{TRIGGER.ID}",
+    "trigger_name": "{EVENT.NAME}",
+    "trigger_status": "{TRIGGER.STATUS}",
+    "trigger_severity": "{TRIGGER.SEVERITY}",
+    "item_value": "{ITEM.LASTVALUE1}",
+    "time": "{TIME}",
+    "problem_url": "https://zabbix.example.com/tr_events.php?triggerid={TRIGGER.ID}&eventid={EVENT.ID}"
+}
+```
+Поле `Subject` оставляем пустым. 
