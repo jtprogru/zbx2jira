@@ -5,7 +5,7 @@
 # https://jtprog.ru/
 
 __author__ = 'jtprogru'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __author_email__ = 'mail@jtprog.ru'
 
 from jira import JIRA
@@ -45,16 +45,43 @@ def create_issue(title, body, project, issuetype, priority) -> str:
     return jira.create_issue(fields=issue_params).key
 
 
-# Close issue
-def close_issue(issue, status):
+# Add comment to issue
+def add_comment(keyid, comment):
+    """
+    Add internal comment to issue
+    :param keyid: KeyID
+    :param comment: Text comment
+    :return:
+    """
+    jira = jira_login()
+    jira.add_comment(issue=keyid, body=comment, is_internal=True)
+
+
+# Classification issue
+def classification_issue(keyid, status, org):
     """
     close_issue()
-    :param issue:
-    :param status:
+    :param keyid: KeyID
+    :param status: Transition for closing issue
+    :param org: Organization ID from config map
     :return: None
     """
     jira = jira_login()
-    jira.transition_issue(issue, status)
+    jissue = jira.issue(id=keyid)
+    jissue.update(fields={env['JIRA_CFORG']: org})
+    jira.transition_issue(keyid, status)
+
+
+# Close issue
+def close_issue(keyid, status):
+    """
+    close_issue()
+    :param keyid: KeyID
+    :param status: Transition for closing issue
+    :return: None
+    """
+    jira = jira_login()
+    jira.transition_issue(keyid, status)
 
 
 # Parse message from {ALERT.MESSAGE}
@@ -69,7 +96,7 @@ def parse_message(msg):
 
 
 # Create message for Jira
-def create_message(pre_msg):
+def create_message(pre_msg) -> str:
     """
     Create pre-format message for body in Jira issue
     :param pre_msg: JSON-object

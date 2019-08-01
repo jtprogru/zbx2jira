@@ -25,9 +25,9 @@ def main():
         # Get event object with {EVENT.ID}
         amsg = parse_message(sys.argv[1])
         event = zapi.event.get(eventids=amsg['event_id'])[0]
+        body = create_message(amsg)
         # Check Acknowledge field
         if event['acknowledged'] is '0':
-            body = create_message(amsg)
             keyid = create_issue(title=amsg['subject'],
                                  body=body,
                                  project=env['JIRA_PROJECT'],
@@ -39,10 +39,12 @@ def main():
                                        output='extend',
                                        select_acknowledges='extend')[0]
             issue_key = issue_key['acknowledges'][0]['message']
+            # Add comment before closing
+            add_comment(keyid=issue_key, comment=body)
             # Classification issue
-            close_issue(issue=issue_key, status=env['JIRA_TRANSITION_CLASSIF'])
+            classification_issue(keyid=issue_key, status=env['JIRA_TRANSITION_CLASSIF'], org=jira_organization_map[amsg['client']])
             # Close issue
-            close_issue(issue=issue_key, status=env['JIRA_TRANSITION_CLOSE'])
+            close_issue(keyid=issue_key, status=env['JIRA_TRANSITION_CLOSE'])
 
 
     except Exception as e:

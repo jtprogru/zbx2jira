@@ -40,7 +40,9 @@ JIRA_PROJECT = 'PROJ'  # ServiceDesk Project Key
 JIRA_ISSUE_TYPE = '10511'  # Issue type ID: Task/Question 
 JIRA_ISSUE_PRIORITY = '12121'  # Issue priority for task
 JIRA_TRANSITION_CLASSIF = '11'  # Transition ID for classification
-JIRA_TRANSITION_CLOSE = '21'  # Transition ID for close issue
+JIRA_TRANSITION_INWORK = '51'  # Transision ID InWork
+JIRA_TRANSITION_CLOSE = '21'  # Transition ID Done
+JIRA_CFORG = 'customfield_12222'  # Customfield for my SD -> Organizations/Client
 LOG_FILE_PATH = '/var/log/pyproject/zbxjira.log'  # Path to log file
 ```
 
@@ -62,7 +64,8 @@ exit 0
 В Actions добавляем новый Action со следующим содержимым сообщения:
 ```json
 {
-    "subject": "HUSTON: {TRIGGER.STATUS} -> {HOST.HOST1}: {EVENT.NAME}",
+    "client": "CLIENT_NAME",
+    "subject": "{TRIGGER.STATUS} -> {HOST.HOST1}: {EVENT.NAME}",
     "event_id": "{EVENT.ID}",
     "host_name": "{HOST.HOST1}",
     "host_ip": "{HOST.IP}",
