@@ -5,7 +5,7 @@
 # https://jtprog.ru/
 
 __author__ = 'jtprogru'
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 __author_email__ = 'mail@jtprog.ru'
 
 from jira import JIRA
@@ -24,7 +24,7 @@ def jira_login():
 
 
 # Create issue
-def create_issue(title, body, project, issuetype, priority) -> str:
+def create_issue(title, body, project, issuetype, priority):
     """
     create_issue()
     :param title:
@@ -58,25 +58,30 @@ def add_comment(keyid, comment):
 
 
 # Classification issue
-def classification_issue(keyid, status, org):
+def classification_issue(keyid, status):
     """
     close_issue()
-    :param keyid: KeyID
+    :param issue: KeyID
     :param status: Transition for closing issue
     :param org: Organization ID from config map
     :return: None
     """
     jira = jira_login()
-    jissue = jira.issue(id=keyid)
-    jissue.update(fields={env['JIRA_CFORG']: org})
     jira.transition_issue(keyid, status)
+
+
+# Add organization name
+def add_org(keyid, org):
+    jira = jira_login()
+    issue = jira.issue(id=keyid)
+    issue.update(fields={"customfield_12200": org})
 
 
 # Close issue
 def close_issue(keyid, status):
     """
     close_issue()
-    :param keyid: KeyID
+    :param issue: KeyID
     :param status: Transition for closing issue
     :return: None
     """
@@ -96,7 +101,7 @@ def parse_message(msg):
 
 
 # Create message for Jira
-def create_message(pre_msg) -> str:
+def create_message(pre_msg):
     """
     Create pre-format message for body in Jira issue
     :param pre_msg: JSON-object
@@ -116,4 +121,3 @@ Original event ID: {event_id} '.format(host_name=pre_msg['host_name'],
                                        item_value=pre_msg['item_value'],
                                        event_id=pre_msg['event_id'])
     return msg
-
