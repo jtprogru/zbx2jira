@@ -5,7 +5,7 @@
 # https://jtprog.ru/
 
 __author__ = 'jtprogru'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 __author_email__ = 'mail@jtprog.ru'
 
 from jira import JIRA
@@ -16,7 +16,7 @@ import json
 # Login to Jira API
 def jira_login():
     """
-    jira_login()
+    Login to Jira
     :return: JIRA object
     """
     jira_server = {'server': env['JIRA_SERVER']}
@@ -26,13 +26,13 @@ def jira_login():
 # Create issue
 def create_issue(title, body, project, issuetype, priority):
     """
-    create_issue()
-    :param title:
-    :param body:
-    :param project:
-    :param issuetype:
-    :param priority:
-    :return: KeyID -> str
+    Create issue
+    :param title: Summary of issue
+    :param body: Description of issue
+    :param project: Project key -> ex: JIR
+    :param issuetype: Issue type -> ex: Task
+    :param priority: Issue priority -> ex: Critical, High, Low
+    :return: KeyID -> ex: JIR-1234
     """
     jira = jira_login()
     issue_params = {
@@ -61,9 +61,8 @@ def add_comment(keyid, comment):
 def classification_issue(keyid, status):
     """
     close_issue()
-    :param issue: KeyID
+    :param keyid: KeyID
     :param status: Transition for closing issue
-    :param org: Organization ID from config map
     :return: None
     """
     jira = jira_login()
@@ -72,16 +71,22 @@ def classification_issue(keyid, status):
 
 # Add organization name
 def add_org(keyid, org):
+    """
+    Add client name in custom field
+    :param keyid: KeyID
+    :param org: Array with client ID -> ex: [4]
+    :return:
+    """
     jira = jira_login()
     issue = jira.issue(id=keyid)
-    issue.update(fields={"customfield_12200": org})
+    issue.update(fields={"customfield_11200": org})
 
 
 # Close issue
 def close_issue(keyid, status):
     """
     close_issue()
-    :param issue: KeyID
+    :param keyid: KeyID
     :param status: Transition for closing issue
     :return: None
     """
