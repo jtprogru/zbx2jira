@@ -4,11 +4,6 @@
 # Date: 2019-07-29
 # https://jtprog.ru/
 
-__author__ = 'jtprogru'
-__version__ = '0.0.4'
-__author_email__ = 'mail@jtprog.ru'
-
-
 import urllib3
 import dotenv as d
 from pathlib import Path

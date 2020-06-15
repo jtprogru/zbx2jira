@@ -4,9 +4,6 @@
 # Date: 2019-07-29
 # https://jtprog.ru/
 
-__author__ = 'jtprogru'
-__version__ = '0.0.4'
-__author_email__ = 'mail@jtprog.ru'
 
 from jira import JIRA
 from config import *
