@@ -1,18 +1,17 @@
-#!/usr/bin/env python
 # coding=utf-8
 # Created by JTProgru
 # Date: 2019-07-29
 # https://jtprog.ru/
 
 import urllib3
-import dotenv as d
+import dotenv
 from pathlib import Path
 import logging
 
 # Disable SSL warning
 urllib3.disable_warnings()
 # Load environment
-env = d.get_variables(str(Path(__file__).parent / '.env'))
+env = dotenv.get_variables(str(Path(__file__).parent / '.env'))
 # Logging configuretion
 logging.basicConfig(format=u'%(filename)s [LINE:%(lineno)d]# '
                            u'%(levelname)s [%(asctime)s]  %(message)s',

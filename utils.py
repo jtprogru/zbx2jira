@@ -1,9 +1,7 @@
-#!/usr/bin/env python
 # coding=utf-8
 # Created by JTProgru
 # Date: 2019-07-29
 # https://jtprog.ru/
-
 
 from jira import JIRA
 from config import *
