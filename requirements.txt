@@ -4,7 +4,7 @@ chardet==3.0.4
 cryptography==3.4.8
 defusedxml==0.7.1
 entrypoints==0.3
-flake8==3.8.3
+flake8==3.9.2
 idna==3.2
 jira==3.0.1
 mccabe==0.6.1
