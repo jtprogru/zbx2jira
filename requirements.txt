@@ -15,7 +15,7 @@ pycparser==2.20
 pyflakes==2.2.0
 PyJWT==1.7.1
 pyzabbix==0.8.2
-requests==2.23.0
+requests==2.26.0
 requests-oauthlib==1.3.0
 requests-toolbelt==0.9.1
 six==1.15.0
