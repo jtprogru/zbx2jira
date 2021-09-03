@@ -12,7 +12,7 @@ oauthlib==3.1.1
 pbr==5.4.5
 pycodestyle==2.6.0
 pycparser==2.20
-pyflakes==2.2.0
+pyflakes==2.3.1
 requests==2.26.0
 PyJWT==2.1.0
 pyzabbix==1.0.0
