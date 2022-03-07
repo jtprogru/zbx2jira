@@ -3,7 +3,7 @@ cffi==1.14.6
 chardet==4.0.0
 cryptography==3.4.8
 defusedxml==0.7.1
-entrypoints==0.3
+entrypoints==0.4
 flake8==3.9.2
 idna==3.2
 jira==3.0.1
