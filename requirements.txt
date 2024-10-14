@@ -5,7 +5,7 @@ cryptography==42.0.4
 defusedxml==0.7.1
 entrypoints==0.3
 flake8==3.9.2
-idna==3.2
+idna==3.7
 jira==3.0.1
 mccabe==0.6.1
 oauthlib==3.2.2
