@@ -46,6 +46,23 @@ JIRA_CFORG = 'customfield_12222'  # Customfield for my SD -> Organizations/Clien
 LOG_FILE_PATH = '/var/log/pyproject/zbxjira.log'  # Path to log file
 ```
 
+## Зависимости и запуск
+
+Управление зависимостями — через [uv](https://docs.astral.sh/uv/). Требуется Python >= 3.9.
+
+```shell script
+# установить зависимости в .venv
+make install        # или: uv sync --dev
+
+# проверить код линтером
+make lint
+
+# запустить обработку сообщения из Zabbix
+make run MSG='{"event_id": "12345", ...}'   # или: uv run python main.py '<json>'
+```
+
+Доступные цели — `make help`.
+
 В Zabbix добавляем новый Media Type с нашим скриптом или делаем для
 него такой `wrapper.sh`, который добавляем в качестве `alertscript`:
 ```shell script
@@ -53,9 +70,7 @@ LOG_FILE_PATH = '/var/log/pyproject/zbxjira.log'  # Path to log file
 
 cd /opt/scripts/zbxjira
 
-source ./venv/bin/activate
-
-python3 main.py "$1"
+uv run python main.py "$1"
 
 exit 0
 ```  
