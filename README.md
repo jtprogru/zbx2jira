@@ -27,7 +27,7 @@
 разрешилась - взять `KeyID` из поля `Acknowledge` и отправить запрос в Jira API на закрытие заявки с указанным `KeyID`;
 
 
-Настройки подгружаются с помощью внутреннего модуля `dotenv` из локального файла `.env`.
+Настройки подгружаются из локального файла `.env` с помощью библиотеки [`python-dotenv`](https://github.com/theskumar/python-dotenv).
 Примерное содержимое файла `.env`:
 ```shell script
 ZBX_SERVER = 'https://zabbix.example.com'

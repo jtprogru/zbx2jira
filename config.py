@@ -4,14 +4,14 @@
 # https://jtprog.ru/
 
 import urllib3
-import dotenv
+from dotenv import dotenv_values
 from pathlib import Path
 import logging
 
 # Disable SSL warning
 urllib3.disable_warnings()
 # Load environment
-env = dotenv.get_variables(str(Path(__file__).parent / '.env'))
+env = dotenv_values(str(Path(__file__).parent / '.env'))
 # Logging configuretion
 logging.basicConfig(format=u'%(filename)s [LINE:%(lineno)d]# '
                            u'%(levelname)s [%(asctime)s]  %(message)s',
