@@ -29,8 +29,16 @@ Homepage = "https://github.com/jtprogru/zbx2jira"
 
 [dependency-groups]
 dev = [
-    "flake8>=7.3.0",
+    "ruff>=0.16.1",
 ]
 
 [tool.uv]
 package = false
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+# E/W — pycodestyle, F — pyflakes, C90 — mccabe: то же, что давал flake8
+select = ["E", "W", "F", "C90"]
