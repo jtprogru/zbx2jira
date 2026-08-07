@@ -9,8 +9,19 @@ __version__ = '0.0.4'
 __author_email__ = 'mail@jtprog.ru'
 
 from pyzabbix import ZabbixAPI
+import logging
 import sys
-from utils import *
+
+from config import env, jira_organization_map
+from utils import (
+    add_comment,
+    add_org,
+    classification_issue,
+    close_issue,
+    create_issue,
+    create_message,
+    parse_message,
+)
 
 # Zabbix API
 zapi = ZabbixAPI(env['ZBX_SERVER'])
@@ -25,7 +36,7 @@ body = create_message(amsg)
 logging.debug("[*******************] DEBUG: Body -> %s" % body)
 # Check Acknowledge field
 logging.debug("[*******************] DEBUG: Ack status -> %s" % event['acknowledged'])
-if event['acknowledged'] is '0':
+if event['acknowledged'] == '0':
     try:
         issue_key = create_issue(title=amsg['subject'],
                                  body=body,
@@ -47,7 +58,7 @@ if event['acknowledged'] is '0':
                                                                  env['JIRA_TRANSITION_CLASSIF']))
         sys.exit(0)
     except Exception as e:
-        logging.debug("[*******************] DEBUG: Exception".format(e))
+        logging.debug("[*******************] DEBUG: Exception: {0}".format(e))
 
 elif event['acknowledged'] == '1':
     try:
@@ -65,4 +76,4 @@ elif event['acknowledged'] == '1':
                                                                                      env['JIRA_TRANSITION_CLOSE']))
         sys.exit(0)
     except Exception as e:
-        logging.debug("[*******************] DEBUG: Exception".format(e))
+        logging.debug("[*******************] DEBUG: Exception: {0}".format(e))

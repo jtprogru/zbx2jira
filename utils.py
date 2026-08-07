@@ -4,7 +4,7 @@
 # https://jtprog.ru/
 
 from jira import JIRA
-from config import *
+from config import env
 import json
 
 

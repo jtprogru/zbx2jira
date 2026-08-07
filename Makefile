@@ -26,8 +26,20 @@ upgrade: ## Обновить зависимости до последних со
 	uv lock --upgrade
 
 .PHONY: lint
-lint: ## Проверить код flake8
-	uv run flake8 --max-line-length=120 main.py utils.py config.py
+lint: ## Проверить код ruff
+	uv run ruff check .
+
+.PHONY: lint-fix
+lint-fix: ## Исправить то, что ruff умеет чинить автоматически
+	uv run ruff check --fix .
+
+.PHONY: fmt
+fmt: ## Отформатировать код ruff
+	uv run ruff format .
+
+.PHONY: fmt-check
+fmt-check: ## Проверить форматирование без изменения файлов
+	uv run ruff format --check .
 
 .PHONY: run
 run: ## Запустить приложение: make run MSG='<json>'
